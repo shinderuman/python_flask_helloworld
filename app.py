@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 import MySQLdb
 app = Flask(__name__)
 
@@ -7,8 +8,8 @@ def hello_world():
   return 'Hello World!'
 
 @app.route('/world/<bar>')
-def world(bar):
-  return bar
+def world(bar=None):
+  return render_template('world.html', bar=bar)
 
 @app.route('/db')
 def db():
