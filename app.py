@@ -6,9 +6,9 @@ app = Flask(__name__)
 def hello_world():
   return 'Hello World!'
 
-@app.route('/world')
-def world():
-  return 'World!'
+@app.route('/world/<bar>')
+def world(bar):
+  return bar
 
 @app.route('/db')
 def db():
@@ -24,4 +24,4 @@ def db():
   return str
 
 if __name__ == '__main__':
-  app.run()
+  app.run(debug=True)
