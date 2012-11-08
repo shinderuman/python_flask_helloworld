@@ -1,5 +1,5 @@
-from flask import Flask
-from flask import render_template
+import os
+from flask import Flask, session, redirect, url_for, escape, request, render_template
 import MySQLdb
 app = Flask(__name__)
 
@@ -24,5 +24,25 @@ def db():
   connect.close
   return str
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+  if request.method == 'POST':
+    session['name'] = request.form['name']
+    return redirect(url_for('session_check'))
+  return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+  session.pop('name', None)
+  return 'You are logouted'
+
+@app.route('/session_check')
+def session_check():
+  if 'name' in session:
+    return 'Your name is %s' % session['name']
+  return "session['name'] is None"
+
+app.secret_key = os.urandom(24)
 if __name__ == '__main__':
   app.run(debug=True)
+
